@@ -1,0 +1,28 @@
+#@ load("@ytt:data", "data")
+apiVersion: sso.apps.tanzu.vmware.com/v1alpha1
+kind: ClientRegistration
+metadata:
+  name: client-registration
+spec:
+  authServerSelector:
+    matchLabels:
+      name: authserver-1
+  redirectURIs:
+  - #@ data.values.gateway_url + "/login/oauth2/code/auth-client"
+  requireUserConsent: false
+  clientAuthenticationMethod: basic
+  authorizationGrantTypes:
+    - "client_credentials"
+    - "authorization_code"
+  scopes:
+  - name: "openid"
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: auth-client
+spec:
+  ref:
+    apiVersion: sso.apps.tanzu.vmware.com/v1alpha1
+    kind: ClientRegistration
+    name: client-registration

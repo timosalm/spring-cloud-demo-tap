@@ -1,0 +1,35 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: shipping-service
+  labels:
+    app.kubernetes.io/part-of: shipping-service
+    apps.tanzu.vmware.com/workload-type: queue
+    apps.tanzu.vmware.com/has-tests: "true"
+spec:
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "17"
+  source:
+    git:
+      url: https://github.com/tsalm-pivotal/spring-cloud-demo-tap.git
+      ref:
+        branch: main
+    subPath: shipping-service
+  serviceClaims:
+  - name: rmq
+    ref:
+      apiVersion: rabbitmq.com/v1beta1
+      kind: RabbitmqCluster
+      name: rmq-1
+  - name: config-server
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: configserver-binding-compatible
+  - name: observability
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: observability-binding-compatible

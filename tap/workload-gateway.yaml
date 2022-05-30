@@ -1,0 +1,37 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: gateway
+  annotations:
+    autoscaling.knative.dev/min-scale: "1"
+  labels:
+    app.kubernetes.io/part-of: gateway
+    apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/has-tests: "true"
+spec:
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "17"
+  source:
+    git:
+      url: https://github.com/tsalm-pivotal/spring-cloud-demo-tap.git
+      ref:
+        branch: main
+    subPath: gateway
+  serviceClaims:
+  - name: config-server
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: configserver-binding-compatible
+  - name: observability
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: observability-binding-compatible
+  - name: auth-client
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: auth-client

@@ -1,0 +1,11 @@
+spring:
+  application.name: product-service # for config server
+  config.import: "optional:configserver:"
+  security.oauth2.resourceserver.jwt.jwk-set-uri: ${spring.security.oauth2.client.provider.appsso.issuer-uri}/oauth2/jwks
+wavefront.application.name: spring-cloud-demo-tap
+
+management:
+  endpoint.restart.enabled: true
+  endpoints.web.exposure.include: "*"
+
+product-service.product-names: VMware Tanzu Application Platform, VMware Tanzu Observability

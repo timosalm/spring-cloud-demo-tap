@@ -1,0 +1,3 @@
+spring.cloud.config.enabled: false
+shipping:
+  duration: 0

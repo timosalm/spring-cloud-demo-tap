@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: vmware-tanzu
+  description: VMware Tanzu
+  links:
+    - url: https://tanzu.vmware.com
+      title: Website
+spec:
+  type: sub-department
+  profile:
+    displayName: VMware Tanzu
+    email: tanzu@vmware.com
+    picture: https://d1fto35gcfffzn.cloudfront.net/images/Tanzu-Logomark.svg
+  parent: vmware
+  children: [team-vmware-tanzu-se]

@@ -1,0 +1,39 @@
+apiVersion: scanning.apps.tanzu.vmware.com/v1beta1
+kind: ScanPolicy
+metadata:
+  name: scan-policy
+spec:
+  regoFile: |
+    package main
+
+    # Accepted Values: "Critical", "High", "Medium", "Low", "Negligible", "UnknownSeverity"
+    notAllowedSeverities := ["Critical","High"]
+    ignoreCves := ["CVE-2021-26291", "GHSA-g36h-6r4f-3mqp", "CVE-2016-1000027", "CVE-2015-0241","CVE-2015-0242","CVE-2015-0243","CVE-2015-0244","CVE-2015-3166","CVE-2015-3167","CVE-2016-0766","CVE-2016-0768","CVE-2016-0773","CVE-2016-5423","CVE-2016-5424","CVE-2016-7048","CVE-2017-14798","CVE-2017-7484","CVE-2018-1115","CVE-2019-10127","CVE-2019-10128","CVE-2019-10210","CVE-2019-10211","CVE-2020-25694","CVE-2020-25695","CVE-2021-23214","CVE-2015-2156","CVE-2019-16869","CVE-2019-20444","CVE-2019-20445","CVE-2021-37136","CVE-2021-37137","CVE-2015-2156","CVE-2019-16869","CVE-2019-20444","CVE-2019-20445","CVE-2021-37136","CVE-2021-37137"]
+
+    contains(array, elem) = true {
+      array[_] = elem
+    } else = false { true }
+
+    isSafe(match) {
+      severities := { e | e := match.ratings.rating.severity } | { e | e := match.ratings.rating[_].severity }
+      some i
+      fails := contains(notAllowedSeverities, severities[i])
+      not fails
+    }
+
+    isSafe(match) {
+      ignore := contains(ignoreCves, match.id)
+      ignore
+    }
+
+    deny[msg] {
+      comps := { e | e := input.bom.components.component } | { e | e := input.bom.components.component[_] }
+      some i
+      comp := comps[i]
+      vulns := { e | e := comp.vulnerabilities.vulnerability } | { e | e := comp.vulnerabilities.vulnerability[_] }
+      some j
+      vuln := vulns[j]
+      ratings := { e | e := vuln.ratings.rating.severity } | { e | e := vuln.ratings.rating[_].severity }
+      not isSafe(vuln)
+      msg = sprintf("CVE %s %s %s", [comp.name, vuln.id, ratings])
+    }

@@ -1,0 +1,7 @@
+site_name: 'sc-architecture-location'
+
+nav:
+  - Home: index.md
+
+plugins:
+  - techdocs-core

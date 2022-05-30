@@ -1,0 +1,2 @@
+product-service.product-names: VMware Tanzu Application Platform, VMware Tanzu Observability
+spring.cloud.config.enabled: false

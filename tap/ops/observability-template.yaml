@@ -1,0 +1,21 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: observability-binding-compatible
+type: Opaque
+stringData:
+  type: wavefront
+  uri: #@ data.values.uri
+  api-token: #@ data.values.api_token
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: observability-binding-compatible
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: observability-binding-compatible

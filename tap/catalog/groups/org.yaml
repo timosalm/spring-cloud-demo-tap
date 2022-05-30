@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: vmware
+  description: The VMware organization
+  links:
+    - url: https://www.vmware.com
+      title: Website
+spec:
+  type: organization
+  profile:
+    displayName: VMware Inc.
+    email: email@vmware.com
+    picture: https://www.vmware.com/content/dam/digitalmarketing/vmware/en/images/company/vmware-logo-grey.svg
+  children: [vmware-tanzu]

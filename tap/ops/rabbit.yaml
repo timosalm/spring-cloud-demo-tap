@@ -1,0 +1,9 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rmq-1
+spec:
+  imagePullSecrets:
+  - name: tap-registry
+  persistence:
+    storage: 5Gi

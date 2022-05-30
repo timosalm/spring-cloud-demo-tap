@@ -1,0 +1,75 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: sso.apps.tanzu.vmware.com/v1alpha1
+kind: AuthServer
+metadata:
+  name: authserver-1
+  namespace: #@ data.values.dev_namespace
+  labels:
+    name: authserver-1
+  annotations:
+    sso.apps.tanzu.vmware.com/allow-client-namespaces: #@ data.values.dev_namespace
+    sso.apps.tanzu.vmware.com/allow-unsafe-issuer-uri: ""
+    sso.apps.tanzu.vmware.com/allow-unsafe-identity-provider: ""
+spec:
+  replicas: 1
+  issuerURI: #@ data.values.issuer_uri
+  tokenSignature:
+    signAndVerifyKeyRef:
+      name: "authserver-1-signing-key"
+  identityProviders:
+    - name: "internal"
+      internalUnsafe:
+        users:
+          - username: "admin"
+            password: "$2a$12$STtDyRUdA4kUvMNdp7eU7OYs6xquWhEfVbkW8TtZ641oC5/vYCKXi"
+            roles:
+            - "customer"
+            - "admin"
+          - username: "user"
+            password: "$2a$12$STtDyRUdA4kUvMNdp7eU7OYs6xquWhEfVbkW8TtZ641oC5/vYCKXi"
+            roles:
+            - "customer"
+---
+apiVersion: secretgen.k14s.io/v1alpha1
+kind: RSAKey
+metadata:
+  name: authserver-1-signing-key
+  namespace: #@ data.values.dev_namespace
+spec:
+  secretTemplate:
+    type: Opaque
+    stringData:
+      key.pem: $(privateKey)
+      pub.pem: $(publicKey)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authserver-1
+  namespace: #@ data.values.dev_namespace
+spec:
+  selector:
+    app.kubernetes.io/part-of: authserver-1
+    app.kubernetes.io/component: authorization-server
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: authserver-1
+  namespace: #@ data.values.dev_namespace
+spec:
+  virtualhost:
+    fqdn: #@ data.values.issuer_uri.replace("https://", "").replace("http://", "")
+    #@ if/end hasattr(data.values, "tls_secret_name"):
+    tls:
+      secretName: #@ data.values.tls_secret_name
+  routes:
+    - conditions:
+        - prefix: /
+      services:
+        - name: authserver-1
+          port: 80

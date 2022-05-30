@@ -1,0 +1,9 @@
+spring:
+  data.redis.repositories.enabled: false
+  session.store-type: none
+  datasource.url: jdbc:h2:mem:testdb
+  cloud.config.enabled: false
+order:
+  exchange-name: order-delivered-exchange
+  shipping-exchange-name: order-shipping-exchange
+  products-api-url: http://localhost

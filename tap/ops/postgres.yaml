@@ -1,0 +1,9 @@
+apiVersion: sql.tanzu.vmware.com/v1
+kind: Postgres
+metadata:
+  name: postgres-1
+spec:
+  imagePullSecret:
+    name: tap-registry
+  storageClassName: postgres
+  monitorStorageClassName: postgres

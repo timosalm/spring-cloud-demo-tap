@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-vmware-tanzu-se
+  description: The VMware Tanzu Solution Engineering Team
+spec:
+  type: team
+  profile:
+    displayName: VMware Tanzu Solution Engineering Team
+    email: tanzu-solution-engineering@vmware.com
+    picture: https://d1fto35gcfffzn.cloudfront.net/images/home/index/2020/09/illustration-1a.svg
+  parent: vmware-tanzu
+  children: ["guest"]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: guest
+spec:
+  profile:
+    displayName: Default User
+    email: guest@example.com
+    picture: https://d1fto35gcfffzn.cloudfront.net/images/home/index/2020/09/illustration-1b.svg
+  memberOf: [team-vmware-tanzu-se]

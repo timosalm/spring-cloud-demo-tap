@@ -1,0 +1,62 @@
+apiVersion: gemfire.vmware.com/v1
+kind: GemFireCluster
+metadata:
+  name: gemfire-1
+spec:
+  image: registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:9.15.1
+  imagePullSecrets:
+  - name: tap-registry
+  security:
+    tls: {}
+  locators:
+    replicas: 1
+    resources:
+      requests:
+        memory: 1Gi
+  servers:
+    replicas: 1
+    resources:
+      requests:
+        memory: 1Gi
+    libraries:
+      - name: gemfire-for-redis-apps
+        container:
+          image: registry.tanzu.vmware.com/tanzu-gemfire-for-redis-apps/gemfire-for-redis-apps:1.0.1
+          path: "/gemfire-for-redis-apps/*"
+          imagePullSecretRef:
+            name: tap-registry
+    overrides:
+      jvmOptions: ["-Dgemfire-for-redis-enabled=true"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gemfire-1
+spec:
+  clusterIP: None
+  ports:
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+      name: redis-port
+  selector:
+    gemfire.vmware.com/app: gemfire-1-server
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gemfire-binding-compatible
+type: Opaque
+stringData:
+  type: redis
+  host: gemfire-1
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: gemfire-binding-compatible
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: gemfire-binding-compatible

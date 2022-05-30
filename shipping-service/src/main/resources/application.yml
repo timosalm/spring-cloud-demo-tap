@@ -1,0 +1,16 @@
+spring:
+  application.name: shipping-service # for config server
+  config.import: "optional:configserver:"
+  cloud.stream.bindings:
+      shipOrder-in-0.destination: ${shipping.in-exchange}
+      shipOrder-out-0.destination: ${shipping.out-exchange}
+wavefront.application.name: spring-cloud-demo-tap
+
+management:
+  endpoint.restart.enabled: true
+  endpoints.web.exposure.include: "*"
+
+shipping:
+  in-exchange: order-shipping-exchange
+  out-exchange: order-delivered-exchange
+  duration: 10000

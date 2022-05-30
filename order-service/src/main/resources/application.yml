@@ -1,0 +1,19 @@
+spring:
+  application.name: order-service # for config server
+  jpa.hibernate.ddl-auto: update
+  config.import: "optional:configserver:"
+  security.oauth2.resourceserver.jwt.jwk-set-uri: ${spring.security.oauth2.client.provider.appsso.issuer-uri}/oauth2/jwks
+  cache:
+    redis:
+      time-to-live: 60s
+wavefront.application.name: spring-cloud-demo-tap
+
+logging.level.org.springframework.cache: TRACE
+management:
+  endpoint.restart.enabled: true
+  endpoints.web.exposure.include: "*"
+
+order:
+  exchange-name: order-delivered-exchange
+  shipping-exchange-name: order-shipping-exchange
+  products-api-url:
