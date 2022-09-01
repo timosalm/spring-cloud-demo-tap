@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: observability
+  description: VMware Aria Operations for Applications tenant to provide monitoring and distributed tracing capabilities
+spec:
+  type: observability
+  owner: team-vmware-tanzu-se
+  system: sc-architecture-system

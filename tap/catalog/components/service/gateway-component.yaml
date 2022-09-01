@@ -13,3 +13,7 @@ spec:
   lifecycle: experimental
   owner: team-vmware-tanzu-se
   system: sc-architecture-system
+  dependsOn:
+  - Resource:authserver-1
+  - Resource:configserver
+  - Resource:observability

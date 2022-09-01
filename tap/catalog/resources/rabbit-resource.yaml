@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: rmq-1
+  description: VMware Tanzu RabbitMQ messaging systems for asynchronous messaging between the order and product service
+spec:
+  type: messaging-system
+  owner: team-vmware-tanzu-se
+  system: sc-architecture-system

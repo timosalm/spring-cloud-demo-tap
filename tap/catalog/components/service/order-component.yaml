@@ -13,3 +13,10 @@ spec:
   lifecycle: experimental
   owner: team-vmware-tanzu-se
   system: sc-architecture-system
+  dependsOn:
+  - Resource:authserver-1
+  - Resource:configserver
+  - Resource:observability
+  - Resource:rmq-1
+  - Resource:postgres-1
+  - Resource:gemfire-1
