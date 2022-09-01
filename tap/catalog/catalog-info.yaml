@@ -15,3 +15,9 @@ spec:
     - ./groups/department.yaml
     - ./groups/org.yaml
     - ./groups/team.yaml
+    - ./resources/auth-server-resource.yaml
+    - ./resources/config-server-resource.yaml
+    - ./resources/gemfire-resource.yaml
+    - ./resources/observability-resource.yaml
+    - ./resources/postgres-resource.yaml
+    - ./resources/rabbit-resource.yaml
