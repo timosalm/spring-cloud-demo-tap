@@ -1,5 +1,6 @@
 # Demo for a typical Spring Cloud Architecture on VMware Tanzu Application Platform
 
+![](architecture-diagram.png)
 
 ## Prerequisites
 - TAP 1.2 installation
