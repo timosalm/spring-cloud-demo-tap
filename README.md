@@ -8,12 +8,29 @@
 - The default installation of TAP uses a single Contour to provide internet-visible services. You can install a second Contour instance with service type ClusterIP if you want to expose some services to only the local cluster - which is recommended for this setup. The second instance must be installed in a separate namespace. You must set the CNR value `ingress.internal.namespace` to point to this namespace.
 - RabbitMQ operator, Tanzu PostreSQL operator, Tanzu Gemfire operator, Tanzu Observability
 - Queue Supply Chain (https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.2/tap/GUID-workloads-queue.html)
-- Customize supply chain for subpath support of the test step or remove the `apps.tanzu.vmware.com/has-tests: "true"` label in the workload-\*.yaml files if you have the Out of the Box Supply Chain Basic installed.
+
 
 ## Setup
 
 ```
 export DEV_NAMESPACE=<dev-namespace>
+```
+
+### OOTB Testing Supply Chain subpath support
+With TAP 1.2 Git subpath support is not yet supported. Therefore to use a mono repository for our demo application, we've to customize the supplychain template or remove the `apps.tanzu.vmware.com/has-tests: "true"` label in the workload-\*.yaml files if you have the Out of the Box Supply Chain Basic installed.
+
+To customize the supplychain template, update the your TAP installation with the following command ...
+```
+kubectl create secret generic ootb-templates-overlay  --from-file=ootb-templates-overlay.yaml=tap/ops/tap-sc-testing-subpath-suppo
+rt-overlay.yaml -n tap-install
+```
+
+... and add the following contents to the `tap-values.yaml`
+```
+package_overlays:
+- name: ootb-templates
+  secrets:
+  - name: ootb-templates-overlay 
 ```
 
 ### Ops (should be automated and provided as self-service for prod env)

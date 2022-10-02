@@ -1,0 +1,17 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"metadata":{"name": "testing-pipeline"},"kind": "ClusterSourceTemplate"}), expects="0+"
+---
+spec:
+ #@overlay/replace via=lambda a,_: a.replace("source-revision: #@ data.values.source.revision", "source-revision: #@ data.values.source.revision\n    #@ if hasattr(data.values.workload.spec, \"source\") and hasattr(data.values.workload.spec.source, \"subPath\"):\n    source-sub-path: #@ data.values.workload.spec.source.subPath\n    #@ else:\n    source-sub-path: \".\"\n    #@ end")
+ ytt: {}
+---
+#@overlay/match by=overlay.subset({"metadata":{"name": "tekton-source-pipelinerun"},"kind": "ClusterRunTemplate"}), expects="0+"
+---
+spec:
+  template:
+    spec:
+      params:
+      #@overlay/append
+      - name: source-sub-path
+        value: $(runnable.spec.inputs.source-sub-path)$
