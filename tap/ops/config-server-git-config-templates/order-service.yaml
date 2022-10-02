@@ -1,0 +1,3 @@
+#@ load("@ytt:data", "data")
+---
+order.products-api-url: #@ "http://product-service." + data.values.namespace + "/api/v1/products"
