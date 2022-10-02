@@ -16,7 +16,13 @@
 export DEV_NAMESPACE=<dev-namespace>
 ```
 
-### OOTB Testing Supply Chain subpath support
+### Ops (should be automated and provided as self-service for prod env)
+
+```
+kubectl apply -f tap/ops/scan-policy.yaml -n <dev-namespace>
+```
+
+#### OOTB Testing Supply Chain subpath support
 With TAP 1.2 Git subpath support is not yet supported. Therefore to use a mono repository for our demo application, we've to customize the supplychain template or remove the `apps.tanzu.vmware.com/has-tests: "true"` label in the workload-\*.yaml files if you have the Out of the Box Supply Chain Basic installed.
 
 To customize the supplychain template, update the your TAP installation with the following command ...
@@ -33,11 +39,6 @@ package_overlays:
   - name: ootb-templates-overlay 
 ```
 
-### Ops (should be automated and provided as self-service for prod env)
-
-```
-kubectl apply -f tap/ops/scan-policy.yaml -n <dev-namespace>
-```
 #### Config Server
 Create a (private) Git repository with the the files in the `generated/config-server-config` directory after running the following ytt commands.
 ```
