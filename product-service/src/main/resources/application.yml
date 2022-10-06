@@ -1,6 +1,6 @@
 spring:
   application.name: product-service # for config server
-  config.import: "optional:configserver:"
+  config.import: "optional:configserver:http://configserver"
   security.oauth2.resourceserver.jwt.jwk-set-uri: ${spring.security.oauth2.client.provider.appsso.issuer-uri}/oauth2/jwks
 wavefront.application.name: spring-cloud-demo-tap
 
