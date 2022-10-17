@@ -9,6 +9,10 @@ metadata:
     apps.tanzu.vmware.com/workload-type: web
     apps.tanzu.vmware.com/has-tests: "true"
 spec:
+  params:
+  - name: testing_pipeline_params
+    value:
+      source-sub-path: gateway
   build:
     env:
     - name: BP_JVM_VERSION

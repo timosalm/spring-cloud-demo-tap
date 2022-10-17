@@ -10,6 +10,10 @@ metadata:
     apps.tanzu.vmware.com/has-tests: "true"
     networking.knative.dev/visibility: cluster-local
 spec:
+  params:
+  - name: testing_pipeline_params
+    value:
+      source-sub-path: order-service
   build:
     env:
     - name: BP_JVM_VERSION

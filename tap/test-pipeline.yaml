@@ -9,6 +9,7 @@ spec:
     - name: source-url                       # (!) required
     - name: source-revision                  # (!) required
     - name: source-sub-path
+      default: "."
   tasks:
     - name: test
       params:
