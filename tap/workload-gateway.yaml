@@ -8,11 +8,8 @@ metadata:
     app.kubernetes.io/part-of: gateway
     apps.tanzu.vmware.com/workload-type: web
     apps.tanzu.vmware.com/has-tests: "true"
+    apis.apps.tanzu.vmware.com/register-api: "true"
 spec:
-  build:
-    env:
-    - name: BP_JVM_VERSION
-      value: "17"
   source:
     git:
       url: https://github.com/tsalm-pivotal/spring-cloud-demo-tap.git
@@ -35,3 +32,19 @@ spec:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
       name: auth-client
+  params:
+  - name: api_descriptor
+    value:
+      type: openapi
+      location:
+        path: "/v3/api-docs"
+      system: sc-architecture-system
+      owner: team-vmware-tanzu-se
+      description: "A set of API endpoints to manage the resources within the Spring Cloud Architecture app."
+  - name: testing_pipeline_params
+    value:
+      source-sub-path: gateway
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "17"

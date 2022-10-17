@@ -2,7 +2,6 @@ spring:
   application.name: gateway # for config server and service-registry
   config.import: "optional:configserver:"
 wavefront.application.name: spring-cloud-demo-tap
-
 management:
   endpoint:
     restart.enabled: true

@@ -17,11 +17,23 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2021.0.3</spring-cloud.version>
 		<wavefront.version>2.3.0</wavefront.version>
+		<springdoc.version>1.6.12</springdoc.version>
+		<swagger-parser-parser.version>2.1.5</swagger-parser-parser.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-webflux-ui</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.parser.v3</groupId>
+			<artifactId>swagger-parser</artifactId>
+			<version>${swagger-parser-parser.version}</version>
 		</dependency>
 
 		<dependency>

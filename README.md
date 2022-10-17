@@ -3,7 +3,7 @@
 ![](architecture-diagram.png)
 
 ## Prerequisites
-- TAP >=1.2 installation
+- TAP >=1.3 installation (if you've 1.2 installed, you can have a look at the "tap-1.2" tag)
 - [ytt](https://carvel.dev/ytt/)
 - The default installation of TAP uses a single Contour to provide internet-visible services. You can install a second Contour instance with service type ClusterIP if you want to expose some services to only the local cluster - which is recommended for this setup. The second instance must be installed in a separate namespace. You must set the CNR value `ingress.internal.namespace` to point to this namespace.
 - RabbitMQ operator, Tanzu PostreSQL operator, Tanzu Gemfire operator, Tanzu Observability
@@ -20,23 +20,6 @@ export DEV_NAMESPACE=<dev-namespace>
 
 ```
 kubectl apply -f tap/ops/scan-policy.yaml -n <dev-namespace>
-```
-
-#### OOTB Testing Supply Chain subpath support
-With TAP 1.2 Git subpath support is not yet supported. Therefore to use a mono repository for our demo application, we've to customize the supplychain template or remove the `apps.tanzu.vmware.com/has-tests: "true"` label in the workload-\*.yaml files if you have the Out of the Box Supply Chain Basic installed.
-
-To customize the supplychain template, update the your TAP installation with the following command ...
-```
-kubectl create secret generic ootb-templates-overlay  --from-file=ootb-templates-overlay.yaml=tap/ops/tap-sc-testing-subpath-suppo
-rt-overlay.yaml -n tap-install
-```
-
-... and add the following contents to the `tap-values.yaml`
-```
-package_overlays:
-- name: ootb-templates
-  secrets:
-  - name: ootb-templates-overlay 
 ```
 
 #### Config Server
@@ -72,6 +55,13 @@ ytt -f tap/ops/observability-template.yaml -v uri=https://vmwareprod.wavefront.c
 ```
 
 #### Gemfire
+```
+tanzu secret registry add tanzu-net-registry \
+  --username <tanzunet-username> --password <tanzunet-pw> \
+  --server registry.tanzu.vmware.com \
+  --yes --namespace $DEV_NAMESPACE
+```
+
 ```
 kubectl apply -f tap/ops/gemfire.yaml -n $DEV_NAMESPACE
 ```

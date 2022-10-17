@@ -24,7 +24,7 @@ spec:
           image: registry.tanzu.vmware.com/tanzu-gemfire-for-redis-apps/gemfire-for-redis-apps:1.0.1
           path: "/gemfire-for-redis-apps/*"
           imagePullSecretRef:
-            name: tap-registry
+            name: tanzu-net-registry
     overrides:
       jvmOptions: ["-Dgemfire-for-redis-enabled=true"]
 ---

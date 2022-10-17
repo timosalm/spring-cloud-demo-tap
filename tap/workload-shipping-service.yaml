@@ -7,6 +7,10 @@ metadata:
     apps.tanzu.vmware.com/workload-type: queue
     apps.tanzu.vmware.com/has-tests: "true"
 spec:
+  params:
+  - name: testing_pipeline_params
+    value:
+      source-sub-path: shipping-service
   build:
     env:
     - name: BP_JVM_VERSION
