@@ -4,6 +4,8 @@ import io.swagger.v3.core.filter.SpecFilter;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.parser.OpenAPIV3Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springdoc.core.OpenAPIService;
 import org.springdoc.core.customizers.OpenApiBuilderCustomizer;
 import org.springframework.cloud.gateway.route.RouteDefinition;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class OpenApiConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(OpenApiConfiguration.class);
 
     @Bean
     public OpenAPI openAPI() {
@@ -43,7 +47,9 @@ public class OpenApiConfiguration {
 
         @Override
         public void customise(OpenAPIService openApiService) {
-            var api = new OpenAPIV3Parser().read(routeDefinition.getUri() + "/v3/api-docs");
+            var openApiUrl = routeDefinition.getUri() + "/v3/api-docs";
+            log.info("GroupCustomiser called for OpenApi uri " + openApiUrl);
+            var api = new OpenAPIV3Parser().read(openApiUrl);
             this.openApi.setComponents(api.getComponents());
             openApi.setPaths(api.getPaths());
             openApi.setExtensions(api.getExtensions());
