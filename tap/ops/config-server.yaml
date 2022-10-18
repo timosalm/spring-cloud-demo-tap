@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: configserver
-          image: springcloud/configserver
+          image: springcloud/spring-cloud-kubernetes-configserver:2.1.4
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
