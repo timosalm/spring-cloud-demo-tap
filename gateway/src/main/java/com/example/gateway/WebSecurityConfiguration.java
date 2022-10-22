@@ -2,6 +2,7 @@ package com.example.gateway;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -12,14 +13,12 @@ class WebSecurityConfiguration {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http
+        return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .oauth2Login(oauth2Login -> {})
-                .oauth2Client(oauth2Client -> {})
                 .authorizeExchange(authorize -> authorize
                         .pathMatchers("/services/**").authenticated()
                         .pathMatchers("/**").permitAll()
-                );
-        return http.build();
+                )
+                .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt).build();
     }
 }

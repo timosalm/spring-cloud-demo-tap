@@ -1,1 +1,4 @@
-spring.cloud.config.enabled: false
+spring:
+  cloud.config.enabled: false
+  security.oauth2.resourceserver.jwt.jwk-set-uri: http://localhost/oauth2/jwks
+

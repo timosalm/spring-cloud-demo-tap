@@ -1,0 +1,31 @@
+
+<div class="main-container">
+  <header class="header-6">
+    <div class="branding">
+      <a class="nav-link">
+        <clr-icon shape="shopping-cart" size="24"></clr-icon>
+        <span class="title">VMware Shop</span>
+      </a>
+    </div>
+    <div class="header-nav">
+      <a class="active nav-link nav-text">Home</a>
+    </div>
+    <div class="header-actions">
+      <clr-dropdown *ngIf="userName">
+        <button class="nav-text" clrDropdownTrigger aria-label="open user profile">
+          {{ userName }}
+          <cds-icon shape="angle" direction="down"></cds-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+          <a href="javascript:void(0)" clrDropdownItem (click)="copyOicToken()">Copy OIC token</a>
+          <a href="javascript:void(0)" clrDropdownItem (click)="logout()">Log out</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </header>
+  <div class="content-container">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -8,9 +8,9 @@ spec:
     matchLabels:
       name: authserver-1
   redirectURIs:
-  - #@ data.values.gateway_url + "/login/oauth2/code/auth-client"
+  - #@ data.values.gateway_url + "/frontend/index.html"
   requireUserConsent: false
-  clientAuthenticationMethod: basic
+  clientAuthenticationMethod: none
   authorizationGrantTypes:
     - "client_credentials"
     - "authorization_code"

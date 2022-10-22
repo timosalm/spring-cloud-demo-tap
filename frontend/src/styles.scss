@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+.nav-text {
+  font-weight: 200 !important;
+}
+
+.title {
+  font-weight: 200 !important;
+}
+
+.card-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
+
+  h3, button {
+    margin: 0 !important;
+  }
+}

@@ -5,6 +5,8 @@ import io.swagger.v3.core.filter.SpecFilter;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +28,30 @@ public class OpenApiConfiguration {
 
     @Bean
     public OpenAPI openApi() {
-        return new OpenAPI().info(new Info().title("Spring Cloud Architecture API").version("1.0").description(""));
+        var securitySchemeName = "bearerAuth";
+        return new OpenAPI()
+                .info(new Info().title("Spring Cloud Architecture API").version("1.0").description(""))
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(new Components().addSecuritySchemes(securitySchemeName, new SecurityScheme()
+                        .name(securitySchemeName).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
     }
-
     @Bean
     public List<OpenApiCustomiser> openApiCustomiser(RouteDefinitionLocator locator, OpenAPI parentApi) {
         var routeDefinitions = locator.getRouteDefinitions().collectList().block();
-        return routeDefinitions.stream().map(GroupCustomiser::new).collect(Collectors.toList());
+        return routeDefinitions.stream()
+                .filter(routeDefinition -> getGatewayPathPrefix(routeDefinition).startsWith("/services/"))
+                .map(GroupCustomiser::new).collect(Collectors.toList());
+    }
+
+    private static String getGatewayPathPrefix(RouteDefinition routeDefinition) {
+        return routeDefinition.getPredicates()
+                .stream()
+                .filter(predicateDefinition -> predicateDefinition.getName().equals("Path"))
+                .findFirst()
+                .map(predicateDefinition ->
+                        predicateDefinition.getArgs().values().stream().findFirst().orElse("")
+                                .replace("/**", ""))
+                .orElse("");
     }
 
     private static class GroupCustomiser extends SpecFilter implements OpenApiCustomiser {
@@ -54,7 +73,9 @@ public class OpenApiConfiguration {
 
         private void merge(OpenAPI parentApi, OpenAPI api) {
             parentApi.setTags(combineLists(parentApi.getTags(), api.getTags()));
-            api.getPaths().forEach((name, item) -> parentApi.getPaths().addPathItem(getGatewayPathPrefix() + name, item));
+            api.getPaths().forEach((name, item) -> {
+                parentApi.getPaths().addPathItem(getGatewayPathPrefix(this.routeDefinition) + name, item);
+            });
             parentApi.setExtensions(combineMaps(parentApi.getExtensions(), api.getExtensions()));
             merge(parentApi.getComponents(), api.getComponents());
         }
@@ -70,17 +91,6 @@ public class OpenApiConfiguration {
             parentComponents.setLinks(combineMaps(parentComponents.getLinks(), components.getLinks()));
             parentComponents.setCallbacks(combineMaps(parentComponents.getCallbacks(), components.getCallbacks()));
             parentComponents.setExtensions(combineMaps(parentComponents.getExtensions(), components.getExtensions()));
-        }
-
-        private String getGatewayPathPrefix() {
-            return this.routeDefinition.getPredicates()
-                    .stream()
-                    .filter(predicateDefinition -> predicateDefinition.getName().equals("Path"))
-                    .findFirst()
-                    .map(predicateDefinition ->
-                            predicateDefinition.getArgs().values().stream().findFirst().orElse("")
-                                    .replace("/**", ""))
-                    .orElse("");
         }
 
         private <K, V> Map<K, V> combineMaps(Map<K, V> map1, Map<K, V> map2) {

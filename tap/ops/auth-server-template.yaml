@@ -67,6 +67,11 @@ spec:
     #@ if/end hasattr(data.values, "tls_secret_name"):
     tls:
       secretName: #@ data.values.tls_secret_name
+    corsPolicy:
+      allowOrigin:
+        - "*" # allows any origin
+      allowMethods:
+        - "*"
   routes:
     - conditions:
         - prefix: /
