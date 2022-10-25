@@ -72,6 +72,8 @@ spec:
         - "*" # allows any origin
       allowMethods:
         - "*"
+      allowHeaders:
+        - '*'
   routes:
     - conditions:
         - prefix: /

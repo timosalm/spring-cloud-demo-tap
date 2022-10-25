@@ -17,6 +17,10 @@ export class AppComponent {
     this.oauthService.events
       .pipe(filter((e) => e.type === 'token_received'))
       .subscribe((_) => this.oauthService.loadUserProfile());
+
+    this.oauthService.events.subscribe(e => {
+      console.log('oauth/oidc event', e);
+    });
   }
 
   get userName(): string {
@@ -25,8 +29,13 @@ export class AppComponent {
     return claims['sub' as keyof typeof claims];
   }
 
+  get isLoggedIn(): boolean {
+    return this.oauthService.hasValidIdToken();
+  }
+
   logout() {
-    this.oauthService.logOut();
+    this.oauthService.revokeTokenAndLogout();
+    location.reload();
   }
 
   copyOicToken() {

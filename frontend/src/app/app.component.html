@@ -11,7 +11,7 @@
       <a class="active nav-link nav-text">Home</a>
     </div>
     <div class="header-actions">
-      <clr-dropdown *ngIf="userName">
+      <clr-dropdown *ngIf="isLoggedIn">
         <button class="nav-text" clrDropdownTrigger aria-label="open user profile">
           {{ userName }}
           <cds-icon shape="angle" direction="down"></cds-icon>

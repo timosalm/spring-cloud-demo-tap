@@ -27,6 +27,10 @@ export class HomeComponent {
       });
   }
 
+  get isLoggedIn(): boolean {
+    return this.oauthService.hasValidIdToken();
+  }
+
   getProductName(productId: number): string {
     return this.products.find(product => product.id === productId)?.name || 'Unknown';
   }

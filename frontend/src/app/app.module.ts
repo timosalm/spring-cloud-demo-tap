@@ -4,13 +4,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OAuthModule } from "angular-oauth2-oidc";
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {APP_BASE_HREF} from "@angular/common";
 import {environment} from "../environments/environment";
 import {HomeComponent} from "./home/home.component";
 import {ClarityModule} from "@clr/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
+import {AuthHttpInterceptor} from "./auth.http.interceptor";
 
 @NgModule({
   declarations: [
@@ -22,8 +23,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     AppRoutingModule,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: [environment.endpoints.orders, environment.endpoints.products,
-          environment.authConfig.issuer + '/userinfo'],
+        allowedUrls: [environment.endpoints.orders, environment.endpoints.products],
         sendAccessToken: true
       }
     }),
@@ -32,7 +32,10 @@ import {ReactiveFormsModule} from "@angular/forms";
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  providers: [{provide: APP_BASE_HREF, useValue: environment.baseHref}],
+  providers: [
+    {provide: APP_BASE_HREF, useValue: environment.baseHref},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
