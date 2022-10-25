@@ -20,7 +20,13 @@ import {ReactiveFormsModule} from "@angular/forms";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    OAuthModule.forRoot(),
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: [environment.endpoints.orders, environment.endpoints.products,
+          environment.authConfig.issuer + '/userinfo'],
+        sendAccessToken: true
+      }
+    }),
     HttpClientModule,
     ClarityModule,
     BrowserAnimationsModule,

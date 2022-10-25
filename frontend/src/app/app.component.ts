@@ -22,7 +22,7 @@ export class AppComponent {
   get userName(): string {
     const claims = this.oauthService.getIdentityClaims();
     if (!claims) return "";
-    return JSON.stringify(claims);
+    return claims['sub' as keyof typeof claims];
   }
 
   logout() {
