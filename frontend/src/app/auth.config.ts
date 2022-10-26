@@ -8,5 +8,6 @@ export const authCodeFlowConfig: AuthConfig = {
   responseType: 'code',
   scope: 'openid',
   showDebugInformation: true,
-  timeoutFactor: 0.01
+  timeoutFactor: 0.01,
+  logoutUrl: environment.authConfig.issuer + '/logout'
 };

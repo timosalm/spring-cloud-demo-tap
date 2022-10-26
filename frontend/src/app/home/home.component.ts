@@ -20,7 +20,7 @@ export class HomeComponent {
 
   constructor(private oauthService: OAuthService, private homeService: HomeService, private formBuilder: FormBuilder) {
     this.oauthService.events
-      .pipe(filter((e) => e.type === 'token_received'))
+      .pipe(filter((e) => e.type === 'discovery_document_loaded'))
       .subscribe((_) => {
         this.fetchProducts();
         this.fetchOrders();
