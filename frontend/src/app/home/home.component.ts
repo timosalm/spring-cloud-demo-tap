@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import {Order} from "./order.entity";
-import {OAuthService} from "angular-oauth2-oidc";
-import {filter} from "rxjs";
 import {HomeService} from "./home.service";
 import {Product} from "./product.entity";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -18,16 +16,12 @@ export class HomeComponent {
   orders: Order[] = [];
   products: Product[] = [];
 
-  constructor(private oauthService: OAuthService, private homeService: HomeService, private formBuilder: FormBuilder) {
+  constructor(private homeService: HomeService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
     this.fetchProducts();
     this.fetchOrders();
-  }
-
-  get isLoggedIn(): boolean {
-    return this.oauthService.hasValidIdToken();
   }
 
   getProductName(productId: number): string {

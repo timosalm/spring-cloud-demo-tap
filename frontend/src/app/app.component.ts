@@ -17,10 +17,6 @@ export class AppComponent {
     this.oauthService.events
       .pipe(filter((e) => e.type === 'token_received'))
       .subscribe((_) => this.oauthService.loadUserProfile());
-
-    this.oauthService.events.subscribe(e => {
-      console.log('oauth/oidc event', e);
-    });
   }
 
   get userName(): string {

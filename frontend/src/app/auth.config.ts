@@ -9,5 +9,6 @@ export const authCodeFlowConfig: AuthConfig = {
   scope: 'openid',
   showDebugInformation: true,
   timeoutFactor: 0.01,
-  logoutUrl: environment.authConfig.issuer + '/logout'
+  logoutUrl: environment.authConfig.issuer + '/logout',
+  redirectUriAsPostLogoutRedirectUriFallback: true
 };
