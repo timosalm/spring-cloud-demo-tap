@@ -22,8 +22,10 @@ export class HomeComponent {
     this.oauthService.events
       .pipe(filter((e) => e.type === 'discovery_document_loaded'))
       .subscribe((_) => {
-        this.fetchProducts();
-        this.fetchOrders();
+        if (this.oauthService.hasValidIdToken()) {
+          if (this.products.length === 0) this.fetchProducts();
+          if (this.products.length === 0) this.fetchOrders();
+        }
       });
   }
 
