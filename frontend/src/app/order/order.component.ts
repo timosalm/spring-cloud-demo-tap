@@ -16,7 +16,7 @@ export class OrderComponent {
   orders: Order[] = [];
   products: Product[] = [];
 
-  constructor(private homeService: OrderService, private formBuilder: FormBuilder) {
+  constructor(private orderService: OrderService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -39,14 +39,14 @@ export class OrderComponent {
   createOrder() {
     if (this.createOrderForm?.invalid) return;
     this.createOrderModalVisible = false;
-    this.homeService.createOrder(this.createOrderForm?.value).subscribe(order => this.orders.push(order));
+    this.orderService.createOrder(this.createOrderForm?.value).subscribe(order => this.orders.push(order));
   }
 
   fetchOrders() {
-    this.homeService.fetchOrders().subscribe(orders => this.orders = orders);
+    this.orderService.fetchOrders().subscribe(orders => this.orders = orders);
   }
 
   private fetchProducts() {
-    this.homeService.fetchProducts().subscribe(products => this.products = products);
+    this.orderService.fetchProducts().subscribe(products => this.products = products);
   }
 }
