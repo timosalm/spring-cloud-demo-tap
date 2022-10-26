@@ -5,8 +5,8 @@ import {AuthRouteGuard} from "./auth.route-guard";
 import {OrderComponent} from "./order/order.component";
 
 const routes: Routes = [
-  { path: '**', component: HomeComponent},
-  { path: 'orders', component: OrderComponent, canActivate: [AuthRouteGuard] }
+  { path: 'orders', component: OrderComponent, canActivate: [AuthRouteGuard] },
+  { path: '**', component: HomeComponent}
 ];
 
 @NgModule({

@@ -14,7 +14,7 @@ export class AppComponent {
   constructor(private oauthService: OAuthService, private clipboard: Clipboard) {
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.setupAutomaticSilentRefresh();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin().then();
+    this.oauthService.loadDiscoveryDocumentAndTryLogin();
     this.oauthService.events
       .pipe(filter((e) => e.type === 'token_received'))
       .subscribe((_) => this.oauthService.loadUserProfile());
