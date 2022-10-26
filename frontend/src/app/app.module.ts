@@ -12,11 +12,13 @@ import {ClarityModule} from "@clr/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
 import {AuthHttpInterceptor} from "./auth.http.interceptor";
+import {OrderComponent} from "./order/order.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

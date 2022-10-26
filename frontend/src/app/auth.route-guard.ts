@@ -8,14 +8,11 @@ export class AuthRouteGuard implements CanActivate {
   constructor(private oAuthService: OAuthService, private router: Router) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    if (this.oAuthService.hasValidIdToken()) {
-      return Promise.resolve(true);
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (this.oAuthService.hasValidIdToken() && this.oAuthService.hasValidAccessToken()) {
+      return true;
     }
-
-    return this.oAuthService.loadDiscoveryDocumentAndTryLogin()
-      .then(_ => {
-        return this.oAuthService.hasValidIdToken() && this.oAuthService.hasValidAccessToken();
-      })
+    this.router.navigate(['/']);
+    return false;
   }
 }
