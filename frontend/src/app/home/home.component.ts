@@ -19,14 +19,11 @@ export class HomeComponent {
   products: Product[] = [];
 
   constructor(private oauthService: OAuthService, private homeService: HomeService, private formBuilder: FormBuilder) {
-    this.oauthService.events
-      .pipe(filter((e) => e.type === 'discovery_document_loaded'))
-      .subscribe((_) => {
-        if (this.oauthService.hasValidIdToken()) {
-          if (this.products.length === 0) this.fetchProducts();
-          if (this.products.length === 0) this.fetchOrders();
-        }
-      });
+  }
+
+  ngOnInit() {
+    this.fetchProducts();
+    this.fetchOrders();
   }
 
   get isLoggedIn(): boolean {
