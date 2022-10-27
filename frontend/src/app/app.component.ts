@@ -23,7 +23,7 @@ export class AppComponent {
   get userName(): string {
     const claims = this.oauthService.getIdentityClaims();
     if (!claims) return "";
-    return claims['sub' as keyof typeof claims];
+    return claims['preferred_username' as keyof typeof claims];
   }
 
   get isLoggedIn(): boolean {
