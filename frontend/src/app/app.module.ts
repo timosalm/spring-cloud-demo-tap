@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OAuthModule } from "angular-oauth2-oidc";
@@ -11,7 +10,7 @@ import {HomeComponent} from "./home/home.component";
 import {ClarityModule} from "@clr/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
-import {AuthHttpInterceptor} from "./auth.http.interceptor";
+import {AuthHttpInterceptor} from "./auth/auth.http.interceptor";
 import {OrderComponent} from "./order/order.component";
 
 @NgModule({

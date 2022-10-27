@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { authCodeFlowConfig } from './auth.config';
+import { authCodeFlowConfig } from './auth/auth.config';
 import {OAuthService} from "angular-oauth2-oidc";
 import { Clipboard } from '@angular/cdk/clipboard';
 import {filter} from "rxjs";

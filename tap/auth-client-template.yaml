@@ -14,8 +14,13 @@ spec:
   authorizationGrantTypes:
     - "client_credentials"
     - "authorization_code"
+    - "refresh_token"
   scopes:
-  - name: "openid"
+  - name: openid
+  - name: offline_access
+  - name: email
+  - name: profile
+  - name: roles
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim

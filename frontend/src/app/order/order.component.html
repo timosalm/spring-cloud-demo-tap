@@ -22,8 +22,8 @@
             <tr *ngFor="let order of orders">
               <td>{{order.id}}</td>
               <td>{{getProductName(order.productId)}}</td>
-              <td *ngIf="order.orderStatus == 'CREATED'">Erstellt</td>
-              <td *ngIf="order.orderStatus == 'DELIVERED'">Geliefert</td>
+              <td *ngIf="order.orderStatus == 'CREATED'">Created</td>
+              <td *ngIf="order.orderStatus == 'DELIVERED'">Delivered</td>
               <td>{{order.shippingAddress}}</td>
             </tr>
             </tbody>
