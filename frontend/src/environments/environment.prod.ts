@@ -3,7 +3,7 @@ export const environment = {
   baseHref: '/frontend/',
   authConfig: {
     issuer: 'http://authserver-1-dev-namespace.tap.ryanjbaxter.com',
-    clientId: 'dev-space_client-registration'
+    clientId: 'dev-namespace_client-registration'
   },
   endpoints: {
     orders: window.location.origin + '/services/order-service/api/v1/orders',
