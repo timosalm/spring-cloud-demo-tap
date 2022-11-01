@@ -83,5 +83,10 @@ ytt -f tap/auth-client-template.yaml -v gateway_url=https://gateway-${DEV_NAMESP
 kubectl apply -f tap/workload-product-service.yaml -n $DEV_NAMESPACE
 kubectl apply -f tap/workload-order-service.yaml -n $DEV_NAMESPACE
 kubectl apply -f tap/workload-shipping-service.yaml -n $DEV_NAMESPACE
-kubectl apply -f tap/workload-shipping-service.yaml -n $DEV_NAMESPACE
+```
+
+````
+cp frontend/src/environments/environment.prod_template.ts frontend/src/environments/environment.prod.ts
+sed -i '' "s/CHANGE_ME/https://authserver-1-${DEV_NAMESPACE}.example.com/g" frontend/src/environments/environment.prod.ts
+kubectl apply -f tap/workload-frontend.yaml -n $DEV_NAMESPACE
 ```

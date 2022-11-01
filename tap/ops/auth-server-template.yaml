@@ -18,18 +18,18 @@ spec:
     signAndVerifyKeyRef:
       name: "authserver-1-signing-key"
   identityProviders:
-    - name: "internal"
-      internalUnsafe:
-        users:
-          - username: "admin"
-            password: "admin"
-            roles:
-            - "customer"
-            - "admin"
-          - username: "user"
-            password: "user"
-            roles:
-            - "customer"
+  - name: "internal"
+    internalUnsafe:
+      users:
+      - username: "admin"
+        password: "admin"
+        roles:
+        - "customer"
+        - "admin"
+      - username: "user"
+        password: "user"
+        roles:
+        - "customer"
 ---
 apiVersion: secretgen.k14s.io/v1alpha1
 kind: RSAKey
@@ -72,6 +72,8 @@ spec:
         - "*" # allows any origin
       allowMethods:
         - "*"
+      allowHeaders:
+        - '*'
   routes:
     - conditions:
         - prefix: /

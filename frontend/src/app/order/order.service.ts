@@ -8,7 +8,7 @@ import {Product} from "./product.entity";
 @Injectable({
   providedIn: 'root',
 })
-export class HomeService {
+export class OrderService {
 
   constructor(private httpClient: HttpClient) {
   }

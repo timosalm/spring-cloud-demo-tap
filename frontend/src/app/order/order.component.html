@@ -1,0 +1,64 @@
+<div class="clr-row">
+  <div class="clr-col-lg-6 clr-col-md-8 clr-col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3>Orders</h3>
+        <button type="button" class="btn btn-icon" (click)="fetchOrders()">
+          <clr-icon shape="sync"></clr-icon>
+        </button>
+      </div>
+      <div class="card-block">
+        <div class="card-text">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Status</th>
+              <th>Shipping Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let order of orders">
+              <td>{{order.id}}</td>
+              <td>{{getProductName(order.productId)}}</td>
+              <td *ngIf="order.orderStatus == 'CREATED'">Created</td>
+              <td *ngIf="order.orderStatus == 'DELIVERED'">Delivered</td>
+              <td>{{order.shippingAddress}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-sm btn-link" (click)="createOrderModal()">Create Order</button>
+      </div>
+    </div>
+  </div>
+</div>
+<clr-modal [(clrModalOpen)]="createOrderModalVisible" *ngIf="createOrderForm">
+  <h3 class="modal-title">Create Order</h3>
+  <div class="modal-body">
+    <form clrForm clrLayout="vertical" [formGroup]="createOrderForm">
+      <clr-select-container>
+        <label>Product</label>
+        <select clrSelect formControlName="productId" >
+          <option *ngFor="let product of products;" [value]="product.id"> {{product.name}}</option>
+        </select>
+        <clr-control-error>Please select a product!</clr-control-error>
+      </clr-select-container>
+      <clr-input-container>
+        <label>Shipping address</label>
+        <input clrInput type="text" formControlName="shippingAddress" />
+        <clr-control-error>Please enter a shipping address for the order!</clr-control-error>
+      </clr-input-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline"
+            (click)="createOrderModalVisible = false;createOrderForm = undefined">Cancel</button>
+    <button type="button" class="btn btn-primary" [disabled]="createOrderForm.invalid"
+            (click)="createOrder()">Ok</button>
+  </div>
+</clr-modal>
+
