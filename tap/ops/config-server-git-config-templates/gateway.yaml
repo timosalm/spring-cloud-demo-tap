@@ -1,18 +1,24 @@
 #@ load("@ytt:data", "data")
 ---
-spring.cloud.gateway:
-  routes:
-  - id: product-service-route
-    uri: #@ "http://product-service." + data.values.namespace
-    predicates:
-    - Path=/services/product-service/**
-    filters:
-    - StripPrefix=2
-    - TokenRelay=
-  - id: order-service-route
-    uri: #@ "http://order-service." + data.values.namespace
-    predicates:
-    - Path=/services/order-service/**
-    filters:
-    - StripPrefix=2
-    - TokenRelay=
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: frontend-service-route
+          uri:  lb://frontend
+          predicates:
+            - Path=/frontend/**
+          filters:
+            - StripPrefix=1
+        - id: product-service-route
+          uri: lb://product-service
+          predicates:
+            - Path=/services/product-service/**
+          filters:
+            - StripPrefix=2
+        - id: order-service-route
+          uri: lb://order-service
+          predicates:
+            - Path=/services/order-service/**
+          filters:
+            - StripPrefix=2
