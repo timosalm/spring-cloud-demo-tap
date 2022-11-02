@@ -69,7 +69,7 @@ spec:
       secretName: #@ data.values.tls_secret_name
     corsPolicy:
       allowOrigin:
-        - "*" # allows any origin
+        - "*" #! allows any origin
       allowMethods:
         - "*"
       allowHeaders:

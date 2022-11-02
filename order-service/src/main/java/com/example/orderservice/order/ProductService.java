@@ -28,8 +28,6 @@ class ProductService {
     private final RestTemplate restTemplate;
     private final CircuitBreakerFactory circuitBreakerFactory;
 
-    @Value("${order.products-api-url}")
-    private String productsApiUrl;
 
     ProductService(RestTemplate restTemplate, CircuitBreakerFactory circuitBreakerFactory) {
         this.restTemplate = restTemplate;
@@ -38,14 +36,11 @@ class ProductService {
 
     @Cacheable("Products")
     public List<Product> fetchProducts() {
-        if (productsApiUrl == null || productsApiUrl.isEmpty()) {
-            throw new RuntimeException("order.products-api-url not set");
-        }
 
         var headers = getAuthenticationHttpHeaders();
         return circuitBreakerFactory.create("products").run(() ->
                         Arrays.asList(Objects.requireNonNull(
-                                restTemplate.exchange(productsApiUrl, HttpMethod.GET, new HttpEntity<>(null, headers), Product[].class).getBody()
+                                restTemplate.exchange("http://product-service/api/v1/products", HttpMethod.GET, new HttpEntity<>(null, headers), Product[].class).getBody()
                         )),
                 throwable -> {
                     log.error("Call to product service failed, using empty product list as fallback", throwable);

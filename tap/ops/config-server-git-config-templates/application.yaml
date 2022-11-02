@@ -1,0 +1,14 @@
+#@ load("@ytt:data", "data")
+---
+spring:
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            product-service[0]:
+              uri: #@ "http://product-service." + data.values.namespace
+            order-service[0]:
+              uri: #@ "http://order-service." + data.values.namespace
+            frontend[0]:
+              uri: #@ "http://frontend." + data.values.namespace
