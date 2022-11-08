@@ -3,6 +3,8 @@ kind: Resource
 metadata:
   name: postgres-1
   description: VMware Tanzu SQL with Postgres database for storing orders
+  annotations:
+    'backstage.io/techdocs-ref': dir:../
 spec:
   type: database
   owner: team-vmware-tanzu-se

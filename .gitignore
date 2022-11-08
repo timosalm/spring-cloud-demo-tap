@@ -35,3 +35,4 @@ build/
 .DS_Store
 TODO
 PRIVATE_README.md
+tap/catalog/site/

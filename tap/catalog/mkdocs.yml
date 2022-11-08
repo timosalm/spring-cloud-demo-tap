@@ -2,6 +2,11 @@ site_name: 'sc-architecture-location'
 
 nav:
   - Home: index.md
+  - Gateway: gateway.md
+  - Product Service: product-service.md
+  - Order Service: order-service.md
+  - Shipping Service: shipping-service.md
+  - Backing services: backing-services.md
 
 plugins:
   - techdocs-core

@@ -3,6 +3,8 @@ kind: Resource
 metadata:
   name: rmq-1
   description: VMware Tanzu RabbitMQ messaging systems for asynchronous messaging between the order and product service
+  annotations:
+    'backstage.io/techdocs-ref': dir:../
 spec:
   type: messaging-system
   owner: team-vmware-tanzu-se

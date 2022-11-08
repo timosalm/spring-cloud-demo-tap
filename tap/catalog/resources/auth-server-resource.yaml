@@ -3,6 +3,8 @@ kind: Resource
 metadata:
   name: authserver-1
   description: OAuth 2 Authorization Server
+  annotations:
+    'backstage.io/techdocs-ref': dir:../
 spec:
   type: auth-server
   owner: team-vmware-tanzu-se

@@ -3,6 +3,8 @@ kind: Resource
 metadata:
   name: gemfire-1
   description: VMware Tanzu GemFire cache for caching of relational database and rest calls from the order service
+  annotations:
+    'backstage.io/techdocs-ref': dir:../
 spec:
   type: cache
   owner: team-vmware-tanzu-se

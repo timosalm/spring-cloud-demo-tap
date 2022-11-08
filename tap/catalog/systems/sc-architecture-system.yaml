@@ -4,6 +4,6 @@ metadata:
   name: sc-architecture-system
   description: Spring Cloud Architecture on TAP
   annotations:
-    'backstage.io/techdocs-ref': dir:.
+    'backstage.io/techdocs-ref': dir:../
 spec:
   owner: team-vmware-tanzu-se
