@@ -14,7 +14,8 @@ class WebSecurityConfiguration {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .csrf().disable()
+                .cors().disable()
                 .authorizeExchange(authorize -> authorize
                         .pathMatchers("/services/**").authenticated()
                         .pathMatchers("/**").permitAll()
