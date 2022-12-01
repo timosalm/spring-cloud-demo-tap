@@ -17,3 +17,5 @@ spec:
   - Resource:authserver-1
   - Resource:configserver
   - Resource:observability
+  - Component:order-service
+  - Component:product-service

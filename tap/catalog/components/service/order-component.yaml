@@ -20,3 +20,5 @@ spec:
   - Resource:rmq-1
   - Resource:postgres-1
   - Resource:gemfire-1
+  - Component:product-service
+  - Component:shipping-service

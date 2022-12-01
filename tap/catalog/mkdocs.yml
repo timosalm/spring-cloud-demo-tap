@@ -2,6 +2,7 @@ site_name: 'sc-architecture-location'
 
 nav:
   - Home: index.md
+  - Frontend: frontend.md
   - Gateway: gateway.md
   - Product Service: product-service.md
   - Order Service: order-service.md

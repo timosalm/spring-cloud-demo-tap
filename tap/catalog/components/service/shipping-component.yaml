@@ -18,3 +18,4 @@ spec:
   - Resource:configserver
   - Resource:observability
   - Resource:rmq-1
+  - Component:order-service
