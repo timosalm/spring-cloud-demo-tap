@@ -19,3 +19,5 @@ spec:
   - Resource:observability
   - Component:order-service
   - Component:product-service
+  providesApis:
+  - gateway-emea.end2end.link
