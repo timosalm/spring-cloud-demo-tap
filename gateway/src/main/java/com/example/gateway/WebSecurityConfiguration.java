@@ -26,8 +26,7 @@ class WebSecurityConfiguration {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(
-            GlobalCorsProperties globalCorsProperties) {
+    public CorsConfigurationSource corsConfigurationSource(GlobalCorsProperties globalCorsProperties) {
         var source = new UrlBasedCorsConfigurationSource();
         globalCorsProperties.getCorsConfigurations().forEach(source::registerCorsConfiguration);
         return source;
