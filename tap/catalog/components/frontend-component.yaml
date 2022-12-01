@@ -15,3 +15,5 @@ spec:
   system: sc-architecture-system
   dependsOn:
     - Component:gateway
+  consumesApis:
+  - gateway-emea.end2end.link
