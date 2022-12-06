@@ -26,11 +26,14 @@ spec:
       labels:
         app: configserver
     spec:
+      serviceAccountName: spring-cloud-kubernetes-configserver
       containers:
         - name: configserver
-          image: springcloud/configserver
+          image: springcloud/spring-cloud-kubernetes-configserver:2.1.4
           imagePullPolicy: IfNotPresent
           env:
+            - name: SPRING_PROFILES_INCLUDE
+              value: "kubernetes,git"
             - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
               valueFrom:
                 secretKeyRef:
@@ -61,6 +64,37 @@ spec:
               path: /actuator/health/liveness
           ports:
             - containerPort: 8888
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: spring-cloud-kubernetes-configserver
+  name: spring-cloud-kubernetes-configserver
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app: spring-cloud-kubernetes-configserver
+  name: spring-cloud-kubernetes-configserver:view
+roleRef:
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: namespace-reader
+subjects:
+  - kind: ServiceAccount
+    name: spring-cloud-kubernetes-configserver
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: namespace-reader
+rules:
+  - apiGroups: ["", "extensions", "apps"]
+    resources: ["configmaps", "secrets"]
+    verbs: ["get", "list"]
 ---
 apiVersion: v1
 kind: Secret
