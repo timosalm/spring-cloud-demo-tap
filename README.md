@@ -44,9 +44,29 @@ For a TLS setup:
 ytt -f tap/ops/auth-server-template.yaml -v dev_namespace=$DEV_NAMESPACE -v issuer_uri=https://authserver-1-${DEV_NAMESPACE}.example.com -v tls_secret_name=<namespace>/<secret> | kubectl apply -f -
 ```
 
+`Note:` in case your App SSO tls is a selfsigned certificate, you need extra steps at `gateway workload` creation where you need to bind App SSO CA cert to gateway service. 
+
+```
+
+ytt -f tap/ops/gateway-ca-extra-template.yaml -v dev_namespace=$DEV_NAMESPACE --data-value-file appsso_ca_pem=<generated appsso-ca.pem>
+```
+
+```
+# And Optional serviceClaims should added in gateway Workload yaml
+
+serviceClaims:
+  - name: appsso-ca
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: gateway-ca-extra-binding-compatible
+```
+
+
 Otherwise:
 ```
 ytt -f tap/ops/auth-server-template.yaml -v dev_namespace=$DEV_NAMESPACE -v issuer_uri=http://authserver-1-${DEV_NAMESPACE}.example.com | kubectl apply -f -
+
 ```
 
 #### Observability

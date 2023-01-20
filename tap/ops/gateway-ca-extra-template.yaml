@@ -1,0 +1,23 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gateway-ca-extra-binding-compatible
+  namespace: #@ data.values.dev_namespace
+type: servicebinding.io/ca-certificates
+stringData:
+  type: ca-certificates
+  provider: vmware
+  appsso-ca.pem: #@ data.values.appsso_ca_pem
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: gateway-ca-extra-binding-compatible
+  namespace: #@ data.values.dev_namespace
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: gateway-ca-extra-binding-compatible
