@@ -85,12 +85,12 @@ kubectl apply -f tap/workload-order-service.yaml -n $DEV_NAMESPACE
 kubectl apply -f tap/workload-shipping-service.yaml -n $DEV_NAMESPACE
 ```
 
-````
+```
 sed -i '' "s/https:\/\/authserver-1-dev-space.emea.end2end.link/https:\/\/authserver-1-${DEV_NAMESPACE}.example.com/g" frontend/src/environments/environment.prod.ts
 kubectl apply -f tap/workload-frontend.yaml -n $DEV_NAMESPACE
 ```
 
-### TechDocs
+### TechDocs:
 Follow the [documentation](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.5/tap/tap-gui-techdocs-usage.html) to learn how to generate and publish TechDocs for catalogs as part of Tanzu Application Platform GUI.
 
 The sample catalog is set up in a way that the same TechDocs can be opened from every related component. To get it working, the same docs have to be pushed to all the related paths of the components in S3, which can be done with the following commands.
