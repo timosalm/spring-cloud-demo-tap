@@ -28,11 +28,12 @@ public class RewriteResponseBodyGatewayFilterFactory extends AbstractGatewayFilt
     }
 
     public static class Config {
-        private String[] rewrites;
+        private String rewritesString;
 
         public Map<String, String> getRewritesMap() {
             var rewritesMap = new HashMap<String,String>();
-            for (String rewrite: rewrites) {
+
+            for (String rewrite: rewritesString.split(",")) {
                 rewritesMap.put(rewrite.split(":")[0], rewrite.split(":")[1]);
             }
             return rewritesMap;
