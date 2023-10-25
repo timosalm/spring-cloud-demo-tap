@@ -2,6 +2,7 @@ spring:
   application.name: gateway # for config server and service-registry
   config.import: "optional:configserver:"
   security.oauth2.resourceserver.jwt.jwk-set-uri: ${spring.security.oauth2.client.provider.appsso.issuer-uri}/oauth2/jwks
+  codec.max-in-memory-size: -1
 wavefront.application.name: spring-cloud-demo-tap
 management:
   endpoint:

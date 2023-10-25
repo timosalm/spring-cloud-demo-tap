@@ -2,3 +2,12 @@ spring:
   cloud.config.enabled: false
   security.oauth2.resourceserver.jwt.jwk-set-uri: http://localhost/oauth2/jwks
 
+spring.cloud.gateway:
+  routes:
+    - id: frontend
+      uri: http://localhost:8009
+      predicates:
+        - Path=/frontend/**
+      filters:
+        - StripPrefix=1
+        - RewriteResponseBody=ISSUER_HOST:authserver-1-sc-architecture.main.emea.end2end.link,CLIENT_ID_VALUE:sc-architecture_client-registration
