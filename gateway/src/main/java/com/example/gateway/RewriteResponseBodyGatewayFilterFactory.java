@@ -6,7 +6,9 @@ import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyResponseBo
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -22,33 +24,35 @@ public class RewriteResponseBodyGatewayFilterFactory extends AbstractGatewayFilt
     @Override
     public GatewayFilter apply(Config config) {
         return modifyResponseBodyFilterFactory.apply(c -> c.setRewriteFunction(String.class, String.class, (serverWebExchange, body) -> {
-            config.getRewritesMap().forEach(body::replaceAll);
+            for (Map.Entry<String, String> entry:  config.getRewritesMap().entrySet()) {
+                body = body.replaceAll(entry.getKey(), entry.getValue());
+            }
             return Mono.just(body);
         }));
     }
 
+    @Override
+    public ShortcutType shortcutType() {
+        return ShortcutType.GATHER_LIST;
+    }
+
+    @Override
+    public List<String> shortcutFieldOrder() {
+        return Collections.singletonList("rewrites");
+    }
+
     public static class Config {
-        private String rewritesString;
 
-        public Config() {
-        }
+        private List<String> rewrites;
 
-        public String getRewritesString() {
-            return rewritesString;
-        }
-
-        public void setRewritesString(String rewritesString) {
-            this.rewritesString = rewritesString;
+        public void setRewrites(List<String> rewrites) {
+            this.rewrites = rewrites;
         }
 
         public Map<String, String> getRewritesMap() {
-            var rewritesMap = new HashMap<String,String>();
-
-            for (String rewrite: rewritesString.split(",")) {
-                rewritesMap.put(rewrite.split(":")[0], rewrite.split(":")[1]);
-            }
+            var rewritesMap = new HashMap<String, String>();
+            rewrites.forEach(rewrite -> rewritesMap.put(rewrite.split(":")[0], rewrite.split(":")[1]));
             return rewritesMap;
         }
-
     }
 }
