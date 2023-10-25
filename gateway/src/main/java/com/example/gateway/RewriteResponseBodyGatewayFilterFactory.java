@@ -30,6 +30,9 @@ public class RewriteResponseBodyGatewayFilterFactory extends AbstractGatewayFilt
     public static class Config {
         private String rewritesString;
 
+        public Config() {
+        }
+
         public String getRewritesString() {
             return rewritesString;
         }
@@ -37,7 +40,6 @@ public class RewriteResponseBodyGatewayFilterFactory extends AbstractGatewayFilt
         public void setRewritesString(String rewritesString) {
             this.rewritesString = rewritesString;
         }
-
 
         public Map<String, String> getRewritesMap() {
             var rewritesMap = new HashMap<String,String>();
